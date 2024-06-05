@@ -1,4 +1,4 @@
-const containerUrl = 'https://<your_storage_account>.blob.core.windows.net/background-images/';
+const containerUrl = 'https://staticwebstoragetest.blob.core.windows.net/container1';
 
 const images = [
     `${containerUrl}168311249_2941386.jpg`,
