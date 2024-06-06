@@ -1,7 +1,7 @@
 const imageUrls = [
-    'https://yourstorageaccount.blob.core.windows.net/yourcontainer/image1.jpg',
-    'https://yourstorageaccount.blob.core.windows.net/yourcontainer/image2.jpg',
-    'https://yourstorageaccount.blob.core.windows.net/yourcontainer/image3.jpg',
+    'https://staticwebstoragetest.blob.core.windows.net/container1/168311249_2941386.jpg',
+    'https://staticwebstoragetest.blob.core.windows.net/container1/230621042149-01-cristiano-ronaldo-euro-200-apps-062023-restricted.jpg',
+    'https://staticwebstoragetest.blob.core.windows.net/container1/ap22364795346345-153c53713ce57b880428deae9fef9b9926961b6b.jpg',
     // Add more URLs as needed
 ];
 
