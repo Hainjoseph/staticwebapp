@@ -1,7 +1,6 @@
 const imageUrls = [
     'https://staticwebstoragetest.blob.core.windows.net/container1/168311249_2941386.jpg',
     'https://staticwebstoragetest.blob.core.windows.net/container1/230621042149-01-cristiano-ronaldo-euro-200-apps-062023-restricted.jpg',
-    'https://staticwebstoragetest.blob.core.windows.net/container1/ap22364795346345-153c53713ce57b880428deae9fef9b9926961b6b.jpg',
     // Add more URLs as needed
 ];
 
@@ -38,12 +37,19 @@ dropZone.addEventListener('drop', (event) => {
 function handleFiles(event) {
     const files = event.target.files;
     for (const file of files) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            imageUrls.push(e.target.result);
-            addImagePreview(e.target.result);
-        };
-        reader.readAsDataURL(file);
+        const formData = new FormData();
+        formData.append('image', file);
+
+        fetch('http://localhost:3000/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            imageUrls.push(data.imageUrl);
+            addImagePreview(data.imageUrl);
+        })
+        .catch(error => console.error('Error uploading file:', error));
     }
 }
 
