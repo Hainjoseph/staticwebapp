@@ -24,9 +24,6 @@ const imageUrls = [
     'https://staticwebstoragetest.blob.core.windows.net/container1/168311249_2941386.jpg',
     'https://staticwebstoragetest.blob.core.windows.net/container1/230621042149-01-cristiano-ronaldo-euro-200-apps-062023-restricted.jpg',
     'https://staticwebstoragetest.blob.core.windows.net/container1/ap22364795346345-153c53713ce57b880428deae9fef9b9926961b6b.jpg',
-    'https://staticwebstoragetest.blob.core.windows.net/container1/WhatsApp Image 2024-06-06 at 10.46.04_749f2c1b-1.jpg',
-    'https://staticwebstoragetest.blob.core.windows.net/container1/WhatsApp Image 2024-06-06 at 10.46.31_c0ee2bf4-2.jpg',
-    'https://staticwebstoragetest.blob.core.windows.net/container1/WhatsApp Image 2024-06-06 at 10.48.25_019cdaec-3.jpg',
     // Add more URLs as needed
 ];
 
