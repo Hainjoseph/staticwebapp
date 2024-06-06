@@ -75,3 +75,7 @@ body, html {
     padding: 10px;
     border-radius: 5px;
 }
+#upload-button:hover {
+            background-color: #0056b3;
+        }
+
