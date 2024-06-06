@@ -40,7 +40,7 @@ function changeBackgroundImage() {
 }
 
 // Change background image every 2 seconds
-setInterval(changeBackgroundImage, 2000);
+setInterval(changeBackgroundImage, 3000);
 
 // Initialize the background image
 changeBackgroundImage();
