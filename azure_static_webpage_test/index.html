@@ -3,18 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Background</title>
-    <link rel="stylesheet" href="stylesheet.css">
+    <title>Image Slide Show</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="background-container"></div>
-    <div id="upload-container">
-        <div id="drop-zone">Drag & Drop Images Here or Click to Upload</div>
-        <input type="file" id="image-upload" accept="image/*" multiple style="display:none;">
-        <button id="upload-button">Upload Selected Images</button>
-        <div id="preview-container"></div>
-    </div>
-
+    <input type="file" id="imageUpload" accept="image/*" multiple>
+    <div id="background-image"></div>
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,92 +1,54 @@
-const imageUrls = [
-    'https://staticwebstoragetest.blob.core.windows.net/container1/download-1.png',
-    'https://staticwebstoragetest.blob.core.windows.net/container1/images (1).png',
-    'https://staticwebstoragetest.blob.core.windows.net/container1/images (2).png',
-    // Add more URLs as needed
-];
+const AZURE_STORAGE_CONNECTION_STRING = 'DefaultEndpointsProtocol=https;AccountName=staticwebstoragetest;AccountKey=GNVPBU7NFjP26YCa04lVRIyCuWDYJHyEJBMPdj7hvaWTgCWcpP70CDI64edfnhqbCWkswDmIzPkN+AStUiNYig==;EndpointSuffix=core.windows.net'
+const uploadInput = document.getElementById('imageUpload');
+const backgroundImage = document.getElementById('background-image');
+const blobServiceClient = AzureStorage.BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
 
-let currentIndex = 0;
-const container = document.getElementById('background-container');
-const fileInput = document.getElementById('image-upload');
-const dropZone = document.getElementById('drop-zone');
-const previewContainer = document.getElementById('preview-container');
-const uploadButton = document.getElementById('upload-button');
-let selectedFiles = [];
+uploadInput.addEventListener('change', async (e) => {
+  const files = e.target.files;
+  const containerName = "container1"; // Replace with your container name
 
-// Function to change background image
-function changeBackgroundImage() {
-    container.style.backgroundImage = `url(${imageUrls[currentIndex]})`;
-    currentIndex = (currentIndex + 1) % imageUrls.length;
-}
+  const containerClient = blobServiceClient.getContainerClient(containerName);
+  await containerClient.createIfNotExists();
 
-// Function to handle file selection
-fileInput.addEventListener('change', handleFiles);
-dropZone.addEventListener('click', () => fileInput.click());
-dropZone.addEventListener('dragover', (event) => {
-    event.preventDefault();
-    dropZone.style.backgroundColor = '#e9ecef';
-});
-dropZone.addEventListener('dragleave', () => {
-    dropZone.style.backgroundColor = '';
-});
-dropZone.addEventListener('drop', (event) => {
-    event.preventDefault();
-    dropZone.style.backgroundColor = '';
-    handleFiles(event);
-});
+  for (const file of files) {
+    const blockBlobClient = containerClient.getBlockBlobClient(file.name);
+    const uploadResponse = await blockBlobClient.uploadData(file);
+    console.log(`Image uploaded successfully: ${uploadResponse.url}`);
 
-// Function to handle the uploaded files
-function handleFiles(event) {
-    const files = event.target.files || event.dataTransfer.files;
-    for (const file of files) {
-        selectedFiles.push(file);
-        addImagePreview(URL.createObjectURL(file));
-    }
-}
+    // Update background image (assuming first uploaded image)
+    backgroundImage.style.backgroundImage = `url(${uploadResponse.url})`;
+    backgroundImage.style.display = 'block';
+  }
 
-// Function to add image preview
-function addImagePreview(imageUrl) {
-    const previewDiv = document.createElement('div');
-    previewDiv.className = 'preview';
-    previewDiv.style.backgroundImage = `url(${imageUrl})`;
+  const uploadInput = document.getElementById('imageUpload');
+const backgroundImage = document.getElementById('background-image');
+const blobServiceClient = AzureStorage.BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
+const slideInterval = 5000; // Change this value to adjust slide duration (in milliseconds)
 
-    const removeButton = document.createElement('button');
-    removeButton.className = 'remove-button';
-    removeButton.innerHTML = '&times;';
-    removeButton.addEventListener('click', () => {
-        const index = selectedFiles.findIndex(file => URL.createObjectURL(file) === imageUrl);
-        if (index > -1) {
-            selectedFiles.splice(index, 1);
-            previewDiv.remove();
-        }
-    });
+let uploadedImages = []; // Array to store uploaded image URLs
 
-    previewDiv.appendChild(removeButton);
-    previewContainer.appendChild(previewDiv);
-}
+uploadInput.addEventListener('change', async (e) => {
+  const files = e.target.files;
 
-// Function to upload selected files
-uploadButton.addEventListener('click', () => {
-    selectedFiles.forEach(file => {
-        const formData = new FormData();
-        formData.append('image', file);
+  const containerClient = blobServiceClient.getContainerClient(containerName);
+  await containerClient.createIfNotExists();
 
-        fetch('http://localhost:3000/upload', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            imageUrls.push(data.imageUrl);
-        })
-        .catch(error => console.error('Error uploading file:', error));
-    });
-    selectedFiles = [];
-    previewContainer.innerHTML = '';
+  for (const file of files) {
+    const blockBlobClient = containerClient.getBlockBlobClient(file.name);
+    const uploadResponse = await blockBlobClient.uploadData(file);
+    console.log(`Image uploaded successfully: ${uploadResponse.url}`);
+    uploadedImages.push(uploadResponse.url); // Add uploaded image URL to the array
+  }
+
+  // Start the slideshow after all images are uploaded
+  if (uploadedImages.length > 0) {
+    let currentSlideIndex = 0;
+    const slideshowInterval = setInterval(() => {
+      backgroundImage.style.backgroundImage = `url(${uploadedImages[currentSlideIndex]})`;
+      currentSlideIndex = (currentSlideIndex + 1) % uploadedImages.length; // Loop through images
+    }, slideInterval);
+  }
 });
 
-// Change background image every 2 seconds
-setInterval(changeBackgroundImage, 2000);
-
-// Initialize the background image
-changeBackgroundImage();
+  // Implement slideshow logic here (e.g., using setInterval to change background image)
+});
